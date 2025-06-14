@@ -5,42 +5,50 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-      //  FileWriter;
-      //  BufferedReader
-        try {
-            writeInFileWithFileWriter();
-            writeInFileWithBufferedReader();
+        //  FileWriter;
+        //  BufferedReader
+        writeInFileWithFileWriter();
+        writeInFileWithBufferedReader();
 
-            System.out.println(readUsingScanner());
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            System.out.println(readingUsingBuffer());
+
 
     }
 
 
-
     // File Writer
-    public static  void writeInFileWithFileWriter() throws IOException {
+    public static void writeInFileWithFileWriter() {
 
-        FileWriter writer = new FileWriter("output.txt", true);
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter("output.txt", true);
             writer.write("Hello World");
             writer.write("\n");
             writer.close();
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // BufferedWriter
-    public static void writeInFileWithBufferedReader() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter("outputBuffer.txt", true));
-        writer.write("write with BufferedWriter");
-        writer.write("\n");
-        writer.close();
+    public static void writeInFileWithBufferedReader() {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter("outputBuffer.txt", true));
+            writer.write("write with BufferedWriter");
+            writer.write("\n");
+            writer.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+
     // Scanner -> Reader
-    public static String readUsingScanner(){
+    public static String readUsingScanner() {
 
         StringBuilder builder = new StringBuilder();
         File file = new File("outputBuffer.txt");
@@ -48,11 +56,11 @@ public class Main {
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);
-          while(scanner.hasNext()){
-              String line = scanner.nextLine();
-              builder.append(line);
-          }
-          return builder.toString();
+            while (scanner.hasNext()) {
+                String line = scanner.nextLine();
+                builder.append(line);
+            }
+            return builder.toString();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -60,9 +68,27 @@ public class Main {
     }
 
 
+    public static String readingUsingBuffer()  {
+        StringBuilder builder = new StringBuilder();
+
+        try {
+
+            BufferedReader bufferedReader = null;
+            String line;
+
+            bufferedReader = new BufferedReader(new FileReader("outputBuffer.txt"));
+
+            while((line = bufferedReader.readLine()) != null){
+                builder.append(line);
+            }
+            bufferedReader.close();
+            return builder.toString();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
-
-
+    }
 
 }
